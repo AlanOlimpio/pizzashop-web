@@ -11,7 +11,7 @@ export function App() {
     <HelmetProvider>
       <Helmet titleTemplate="%s pizza.shop" />
       <Toaster closeButton richColors />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </HelmetProvider>
   );
 }

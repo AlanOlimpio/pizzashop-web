@@ -8,11 +8,11 @@ export function AuthLayout() {
           <Pizza className="h-5 w-5" />
           <span className="font-semibold">pizza.shop</span>
         </div>
-        <footer className="fixed bottom-0 left-0 right-0 flex items-center border-t border-foreground/5 bg-muted px-10 py-4 text-sm">
+        <footer className="fixed bottom-0 left-0 right-0 z-10 flex items-center border-t border-foreground/5 bg-muted px-10 py-4 text-sm">
           Painel do parceiro &copy; pizza.shop - {new Date().getFullYear()}
         </footer>
       </div>
-      <div className="flex flex-col items-center justify-center pb-20">
+      <div className="relative flex flex-col items-center justify-center pb-20 pt-20">
         <Outlet />
       </div>
     </div>

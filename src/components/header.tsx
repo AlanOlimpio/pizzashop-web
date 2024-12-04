@@ -1,6 +1,9 @@
 import { Home, Pizza, UtensilsCrossed } from "lucide-react";
 import { useState } from "react";
 
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+
+import { AccountMenu } from "./account-menu";
 import { NavLink } from "./nav-link";
 import { Separator } from "./ui/separator";
 
@@ -25,9 +28,9 @@ export function Header() {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
@@ -45,6 +48,10 @@ export function Header() {
             Pedidos
           </NavLink>
         </nav>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+          <AccountMenu />
+        </div>
       </div>
     </div>
   );

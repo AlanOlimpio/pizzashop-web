@@ -12,12 +12,12 @@ import {
 
 export function OrderTableFilters() {
   return (
-    <form className="flex items-center gap-2">
+    <form className="flex flex-wrap items-center gap-2">
       <span className="text-sm font-semibold">Filtros:</span>
-      <Input placeholder="ID do pedido" className="h-8 w-auto" />
-      <Input placeholder="Nome do cliente" className="h-8 w-[320px]" />
-      <Select defaultValue="all">
-        <SelectTrigger className="h-8 w-[180px]">
+      <Input placeholder="ID do pedido" className="h-8 w-auto grow" />
+      <Input placeholder="Nome do cliente" className="h-8 w-[320px] grow" />
+      <Select defaultValue="all grow">
+        <SelectTrigger className="h-8 w-[180px] max-md:w-[100%]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -29,11 +29,11 @@ export function OrderTableFilters() {
           <SelectItem value="delivered">Entregue</SelectItem>
         </SelectContent>
       </Select>
-      <Button variant="secondary" size="sm" type="submit">
+      <Button variant="secondary" size="sm" type="submit" className="grow">
         <Search className="mr-2 h-4 w-4" />
         Filtrar resultados
       </Button>
-      <Button variant="outline" size="sm" type="button">
+      <Button variant="outline" size="sm" type="button" className="grow">
         <X className="mr-2 h-4 w-4" />
         Remover filtros
       </Button>

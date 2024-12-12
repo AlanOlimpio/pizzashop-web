@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { approveOrder } from "@/api/approve-order";
 import { cancelOrder } from "@/api/cancel-order";
+import { dispatchOrder } from "@/api/dispatch-order";
 import { GetOrdersResponse } from "@/api/get-orders";
 import { OrderStatus } from "@/components/order-status";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,14 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
       },
     });
 
+  const { mutateAsync: dispatchOrderFn, isPending: isDispatchingOrder } =
+    useMutation({
+      mutationFn: dispatchOrder,
+      async onSuccess(_, { orderId }) {
+        updateOrderStatusOnCache(orderId, "delivering");
+      },
+    });
+
   return (
     <TableRow>
       <TableCell>
@@ -108,6 +117,18 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
           >
             <ArrowRight className="mr-2 h-3 w-3" />
             Aprovar
+          </Button>
+        )}
+
+        {order.status === "processing" && (
+          <Button
+            variant="outline"
+            disabled={isDispatchingOrder}
+            size="sm"
+            onClick={() => dispatchOrderFn({ orderId: order.orderId })}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            Em entrega
           </Button>
         )}
       </TableCell>

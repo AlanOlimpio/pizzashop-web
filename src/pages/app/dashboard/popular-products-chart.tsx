@@ -1,17 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { BarChart } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import colors from "tailwindcss/colors";
 
+import { getPopularProducts } from "@/api/get-popular-products";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-
-const data = [
-  { product: "Pepperoni", amount: 40 },
-  { product: "Mussarela", amount: 30 },
-  { product: "Marguerita", amount: 50 },
-  { product: "4 Queijos", amount: 16 },
-  { product: "Frango frito", amount: 26 },
-];
 
 const COLORS = [
   colors.sky[500],
@@ -22,6 +16,10 @@ const COLORS = [
 ];
 
 export function PopularProductsChart() {
+  const { data: popularProducts } = useQuery({
+    queryKey: ["metrics", "popular-products"],
+    queryFn: getPopularProducts,
+  });
   const isBiggerMedia = useMediaQuery("(min-width: 520px)");
   const renderCustomizedLabel = ({
     cx,
@@ -46,7 +44,7 @@ export function PopularProductsChart() {
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
     const caracterLength = isBiggerMedia ? 12 : 3;
 
-    return (
+    return popularProducts ? (
       <text
         x={x}
         y={y}
@@ -54,12 +52,12 @@ export function PopularProductsChart() {
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
       >
-        {data[index].product.length > caracterLength
-          ? `${caracterLength > 3 ? data[index].product.substring(0, caracterLength).concat("...") : data[index].product.substring(0, caracterLength)}`
-          : data[index].product}{" "}
+        {popularProducts[index].product.length > caracterLength
+          ? `${caracterLength > 3 ? popularProducts[index].product.substring(0, caracterLength).concat("...") : popularProducts[index].product.substring(0, caracterLength)}`
+          : popularProducts[index].product}{" "}
         ({value})
       </text>
-    );
+    ) : null;
   };
   return (
     <Card className="col-span-3 max-xl:col-span-6">
@@ -72,32 +70,34 @@ export function PopularProductsChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={240}>
-          <PieChart style={{ fontSize: 12 }}>
-            <Pie
-              data={data}
-              nameKey="product"
-              dataKey="amount"
-              cx="50%"
-              cy="50%"
-              outerRadius={isBiggerMedia ? 86 : 55}
-              innerRadius={isBiggerMedia ? 64 : 40}
-              strokeWidth={8}
-              labelLine={false}
-              label={renderCustomizedLabel}
-            >
-              {data.map((_, index) => {
-                return (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index]}
-                    className="stroke-background hover:opacity-80"
-                  />
-                );
-              })}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
+        {popularProducts && (
+          <ResponsiveContainer width="100%" height={240}>
+            <PieChart style={{ fontSize: 12 }}>
+              <Pie
+                data={popularProducts}
+                nameKey="product"
+                dataKey="amount"
+                cx="50%"
+                cy="50%"
+                outerRadius={isBiggerMedia ? 86 : 55}
+                innerRadius={isBiggerMedia ? 64 : 40}
+                strokeWidth={8}
+                labelLine={false}
+                label={renderCustomizedLabel}
+              >
+                {popularProducts.map((_, index) => {
+                  return (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index]}
+                      className="stroke-background hover:opacity-80"
+                    />
+                  );
+                })}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        )}
       </CardContent>
     </Card>
   );

@@ -7,6 +7,8 @@ import { getPopularProducts } from "@/api/get-popular-products";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
+import { GraphicLoading } from "./graphic-loading";
+
 const COLORS = [
   colors.sky[500],
   colors.amber[500],
@@ -70,7 +72,7 @@ export function PopularProductsChart() {
         </div>
       </CardHeader>
       <CardContent>
-        {popularProducts && (
+        {popularProducts ? (
           <ResponsiveContainer width="100%" height={240}>
             <PieChart style={{ fontSize: 12 }}>
               <Pie
@@ -97,6 +99,8 @@ export function PopularProductsChart() {
               </Pie>
             </PieChart>
           </ResponsiveContainer>
+        ) : (
+          <GraphicLoading />
         )}
       </CardContent>
     </Card>

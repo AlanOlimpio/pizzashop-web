@@ -23,6 +23,8 @@ import {
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Label } from "@/components/ui/label";
 
+import { GraphicLoading } from "./graphic-loading";
+
 export function RevenueChart() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: subDays(new Date(), 7),
@@ -62,7 +64,7 @@ export function RevenueChart() {
         </div>
       </CardHeader>
       <CardContent>
-        {chartData && (
+        {chartData ? (
           <ResponsiveContainer width="100%" height={248}>
             <LineChart data={chartData} style={{ fontSize: 12 }}>
               <XAxis dataKey="date" axisLine={false} tickLine={false} dy={16} />
@@ -88,6 +90,8 @@ export function RevenueChart() {
               />
             </LineChart>
           </ResponsiveContainer>
+        ) : (
+          <GraphicLoading />
         )}
       </CardContent>
     </Card>

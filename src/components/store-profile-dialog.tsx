@@ -132,7 +132,7 @@ export function StoreProfileDialog() {
               Cancelar
             </Button>
           </DialogClose>
-          <Button type="submit" variant="success" disabled={isSubmitting}>
+          <Button type="submit" variant="default" disabled={isSubmitting}>
             Salvar
           </Button>
         </DialogFooter>
